@@ -15,6 +15,28 @@ class TestTextNode(unittest.TestCase):
         self.assertNotEqual(node, node2)
 
     def test_inline_bold(self):
+        node = TextNode("This is a **bold** node", text_type_text)
+        nodes = split_nodes_delimiter([node], "**", text_type_bold)
+        self.assertListEqual(
+            [
+                TextNode("This is a ", text_type_text),
+                TextNode("bold", text_type_bold),
+                TextNode(" node", text_type_text),
+            ],
+            nodes,
+        )
+
+    def test_inline_italic(self):
+        node = TextNode("This is a *italic* node", text_type_text)
+        nodes = split_nodes_delimiter([node], "*", text_type_italic)
+        self.assertListEqual(
+            [
+                TextNode("This is a ", text_type_text),
+                TextNode("italic", text_type_italic),
+                TextNode(" node", text_type_text),
+            ],
+            nodes,
+        )
         
 
 
