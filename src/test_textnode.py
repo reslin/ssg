@@ -1,6 +1,13 @@
 import unittest
 
-from textnode import TextNode
+from textnode import (
+    TextNode,
+    text_type_text,
+    text_type_bold,
+    text_type_italic,
+    text_type_code,
+    split_nodes_delimiter,
+)
 
 
 class TestTextNode(unittest.TestCase):
