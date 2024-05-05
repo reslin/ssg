@@ -3,6 +3,9 @@ from handle_markdown import (
     split_nodes_delimiter,
     extract_markdown_links,
     extract_markdown_images,
+    split_nodes_image,
+    split_nodes_link,
+    text_to_textnodes,
 )
 
 from textnode import (
@@ -74,3 +77,44 @@ class TestHandleMarkdown(unittest.TestCase):
             tuples,
         )
     # [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
+
+    def test_no_image_extract(self):
+        text = "This is text with a... nothing"
+        tuples = extract_markdown_links(text)
+        self.assertListEqual(
+            [],
+            tuples,
+        )
+
+    def test_split_nodes_image(self):
+        nodes = [
+                TextNode("only text", text_type_text),
+                TextNode(
+                       "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)",
+                        text_type_text,
+                        )
+        ]
+        new_nodes = split_nodes_image(nodes)
+        print("result:::::")
+        for node in new_nodes:
+            print(node)
+
+    def test_split_nodes_link(self):
+        nodes = [
+                TextNode(
+                       "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)",
+                        text_type_text,
+                        )
+        ]
+        new_nodes = split_nodes_link(nodes)
+        print("result:::::")
+        for node in new_nodes:
+            print(node)
+
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+
+        new_nodes = text_to_textnodes(text)
+        print("result:::::")
+        for node in new_nodes:
+            print(node)
