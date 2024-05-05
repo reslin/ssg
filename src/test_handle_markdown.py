@@ -6,6 +6,7 @@ from handle_markdown import (
     split_nodes_image,
     split_nodes_link,
     text_to_textnodes,
+    markdown_to_blocks,
 )
 
 from textnode import (
@@ -95,9 +96,9 @@ class TestHandleMarkdown(unittest.TestCase):
                         )
         ]
         new_nodes = split_nodes_image(nodes)
-        print("result:::::")
-        for node in new_nodes:
-            print(node)
+        #print("result:::::")
+        #for node in new_nodes:
+        #    print(node)
 
     def test_split_nodes_link(self):
         nodes = [
@@ -107,14 +108,26 @@ class TestHandleMarkdown(unittest.TestCase):
                         )
         ]
         new_nodes = split_nodes_link(nodes)
-        print("result:::::")
-        for node in new_nodes:
-            print(node)
+        #print("result:::::")
+        #for node in new_nodes:
+        #    print(node)
 
     def test_text_to_textnodes(self):
         text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
 
         new_nodes = text_to_textnodes(text)
-        print("result:::::")
-        for node in new_nodes:
-            print(node)
+        #print("result:::::")
+        #for node in new_nodes:
+        #    print(node)
+
+    def test_markdown_to_blocks(self):
+        text = """This is **bolded** paragraph
+
+           
+
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items"""
+        print(markdown_to_blocks(text))
