@@ -58,12 +58,10 @@ class ParentNode(HTMLNode):
         if self.tag == None:
             raise ValueError("tag missing")        
         if self.children == None:
-            raise ValueError("children missing")
-        
+            raise ValueError("children missing")        
         html = ""
         for child in self.children:
-            html += child.to_html()
-        
+            html += child.to_html()        
         return f"<{self.tag}{self.props_to_html()}>{html}</{self.tag}>"
 
     def __eq__(self, other):

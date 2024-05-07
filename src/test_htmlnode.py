@@ -36,6 +36,21 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(pnode.to_html(), "<p><p><b>blublu</b></p><i>blabla</i></p>")
         #print(pnode.to_html())
 
+    def test_headings(self):
+        node = ParentNode(
+            "h2",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            node.to_html(),
+            "<h2><b>Bold text</b>Normal text<i>italic text</i>Normal text</h2>",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

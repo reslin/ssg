@@ -12,13 +12,12 @@ from textnode import (
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
-    
-    for o_node in old_nodes:
-        if o_node.text_type != text_type_text:
-            new_nodes.append(o_node)
+    for node in old_nodes:
+        if node.text_type != text_type_text:
+            new_nodes.append(node)
         else:
             separate_textnodes = []
-            splitters = o_node.text.split(delimiter)
+            splitters = node.text.split(delimiter)
             if len(splitters) % 2 == 0:
                 raise Exception("invalid markdown: opening \"{delimiter}\" not closed")
             for i in range(0, len(splitters)):
@@ -75,11 +74,3 @@ def text_to_textnodes(text):
     nodes = split_nodes_link(nodes)
     return nodes
 
-def markdown_to_blocks(markdown):
-    blocks = []
-    splitters = markdown.split("\n\n")
-    for splitter in splitters:
-        s = splitter.strip()
-        if s != "":
-            blocks.append(s)
-    return blocks
