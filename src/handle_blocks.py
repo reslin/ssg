@@ -84,3 +84,7 @@ def block_quote_to_html_node(block):
 def block_ulist_to_html_node(block):
     children = list(map(lambda l: LeafNode("li", l.lstrip("*- ")), block.split("\n")))
     return ParentNode("ul", children)
+
+def block_olist_to_html_node(block):
+    children = list(map(lambda l: LeafNode("li", l.lstrip("0123456789. ")), block.split("\n")))
+    return ParentNode("ol", children)

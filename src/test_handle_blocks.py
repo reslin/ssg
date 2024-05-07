@@ -13,6 +13,7 @@ from handle_blocks import (
     block_to_block_type,
     block_quote_to_html_node,
     block_ulist_to_html_node,
+    block_olist_to_html_node,
 )
 
 from textnode import (
@@ -47,7 +48,6 @@ class TestHandleBlocks(unittest.TestCase):
 
     def test_markdown_to_blocks(self):
         text = """This is **bolded** paragraph
-
            
 
 This is another paragraph with *italic* text and `code` here
@@ -55,7 +55,6 @@ This is the same paragraph on a new line
 
 * This is a list
 * with items"""
-        #print(markdown_to_blocks(text))
 
     def test_block_quote_to_htmlnode(self):
         block = ">abc\n>def\n>ghi"
@@ -64,11 +63,15 @@ def
 ghi</blockquote>"""
         self.assertEqual(block_quote_to_html_node(block).to_html(), html)
 
-    def test_block_quote_to_htmlnode(self):
+    def test_block_ulist_to_htmlnode(self):
         block = "- abc\n- def\n- ghi"
         html = "<ul><li>abc</li><li>def</li><li>ghi</li></ul>"
         self.assertEqual(block_ulist_to_html_node(block).to_html(), html)
-        #block_ulist_to_html_node(block)
+
+    def test_block_olist_to_htmlnode(self):
+        block = "1. abc\n2. def\n3. ghi"
+        html = "<ol><li>abc</li><li>def</li><li>ghi</li></ol>"
+        self.assertEqual(block_olist_to_html_node(block).to_html(), html)
 
 
 if __name__ == "__main__":
