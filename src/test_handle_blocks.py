@@ -10,7 +10,8 @@ from handle_markdown import (
 
 from handle_blocks import (
     markdown_to_blocks,
-    block_to_block_type
+    block_to_block_type,
+    block_quote_to_html_node
 )
 
 from textnode import (
@@ -40,7 +41,7 @@ class TestHandleBlocks(unittest.TestCase):
         self.assertEqual(block_to_block_type(text), "unordered_list")
 
     def test_olist(self):
-        text = "1. abc\n. def"
+        text = "1. abc\n2. def"
         self.assertEqual(block_to_block_type(text), "ordered_list")
 
     def test_markdown_to_blocks(self):
@@ -55,7 +56,12 @@ This is the same paragraph on a new line
 * with items"""
         #print(markdown_to_blocks(text))
 
-
+    def test_block_quote_to_htmlnode(self):
+        block = ">abc\n>def\n>ghi"
+        html = """<blockquote>abc
+def
+ghi</blockquote>"""
+        self.assertEqual(block_quote_to_html_node(block).to_html(), html)
 
 if __name__ == "__main__":
     unittest.main()

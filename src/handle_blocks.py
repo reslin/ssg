@@ -1,5 +1,9 @@
 import re
 
+from htmlnode import (
+    LeafNode,
+)
+
 block_type_paragraph = "paragraph"
 block_type_heading = "heading"
 block_type_code = "code"
@@ -72,3 +76,6 @@ def block_to_block_type(markdown):
         if is_olist:
             return block_type_olist
     return block_type_paragraph
+
+def block_quote_to_html_node(block):
+    return LeafNode("blockquote", "\n".join(map(lambda l: l.lstrip(">"), block.split("\n"))))
