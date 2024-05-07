@@ -14,6 +14,9 @@ from handle_blocks import (
     block_quote_to_html_node,
     block_ulist_to_html_node,
     block_olist_to_html_node,
+    block_code_to_html_node,
+    block_heading_to_html_node,
+    block_paragraph_to_html_node,
 )
 
 from textnode import (
@@ -72,6 +75,21 @@ ghi</blockquote>"""
         block = "1. abc\n2. def\n3. ghi"
         html = "<ol><li>abc</li><li>def</li><li>ghi</li></ol>"
         self.assertEqual(block_olist_to_html_node(block).to_html(), html)
+
+    def test_block_code_to_htmlnode(self):
+        block = "```abc\ndef\nghi```"
+        html = "<pre><code>abc\ndef\nghi</code></pre>"
+        self.assertEqual(block_code_to_html_node(block).to_html(), html)
+
+    def test_block_heading_to_htmlnode(self):
+        block = "## h2"
+        html = "<h2>h2</h2>"
+        self.assertEqual(block_heading_to_html_node(block).to_html(), html)
+
+    def test_block_paragraph_to_htmlnode(self):
+        block = "paragraph"
+        html = "<p>paragraph</p>"
+        self.assertEqual(block_paragraph_to_html_node(block).to_html(), html)
 
 
 if __name__ == "__main__":

@@ -88,3 +88,14 @@ def block_ulist_to_html_node(block):
 def block_olist_to_html_node(block):
     children = list(map(lambda l: LeafNode("li", l.lstrip("0123456789. ")), block.split("\n")))
     return ParentNode("ol", children)
+
+def block_code_to_html_node(block):
+    return ParentNode("pre", [LeafNode("code", block.strip("`"))])
+
+def block_heading_to_html_node(block):
+    splitters = block.split(" ", 1)
+    heading_level = len(splitters[0])
+    return LeafNode(f"h{heading_level}", block.lstrip("# "))
+
+def block_paragraph_to_html_node(block):
+    return LeafNode("p", block)
