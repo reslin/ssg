@@ -17,6 +17,7 @@ from handle_blocks import (
     block_code_to_html_node,
     block_heading_to_html_node,
     block_paragraph_to_html_node,
+    markdown_to_html_node,
 )
 
 from textnode import (
@@ -90,6 +91,11 @@ ghi</blockquote>"""
         block = "paragraph"
         html = "<p>paragraph</p>"
         self.assertEqual(block_paragraph_to_html_node(block).to_html(), html)
+
+    def test_markdown_to_htmlnode(self):
+        md = "# h1\n\nparagraph\n\n- abc\n- def"
+        html = "<div><h1>h1</h1><p>paragraph</p><ul><li>abc</li><li>def</li></ul></div>"
+        self.assertEqual(markdown_to_html_node(md).to_html(), html)
 
 
 if __name__ == "__main__":

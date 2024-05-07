@@ -99,3 +99,21 @@ def block_heading_to_html_node(block):
 
 def block_paragraph_to_html_node(block):
     return LeafNode("p", block)
+
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    nodes = []
+    for block in blocks:
+        if block_to_block_type(block) == block_type_heading:
+            nodes.append(block_heading_to_html_node(block))
+        elif block_to_block_type(block) == block_type_code:
+            nodes.append(block_code_to_html_node(block))
+        elif block_to_block_type(block) == block_type_quote:
+            nodes.append(block_quote_to_html_node(block))
+        elif block_to_block_type(block) == block_type_ulist:
+            nodes.append(block_ulist_to_html_node(block))
+        elif block_to_block_type(block) == block_type_olist:
+            nodes.append(block_olist_to_html_node(block))
+        else:
+            nodes.append(block_paragraph_to_html_node(block))
+    return ParentNode("div", nodes)
