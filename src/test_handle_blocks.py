@@ -11,7 +11,8 @@ from handle_markdown import (
 from handle_blocks import (
     markdown_to_blocks,
     block_to_block_type,
-    block_quote_to_html_node
+    block_quote_to_html_node,
+    block_ulist_to_html_node,
 )
 
 from textnode import (
@@ -62,6 +63,13 @@ This is the same paragraph on a new line
 def
 ghi</blockquote>"""
         self.assertEqual(block_quote_to_html_node(block).to_html(), html)
+
+    def test_block_quote_to_htmlnode(self):
+        block = "- abc\n- def\n- ghi"
+        html = "<ul><li>abc</li><li>def</li><li>ghi</li></ul>"
+        self.assertEqual(block_ulist_to_html_node(block).to_html(), html)
+        #block_ulist_to_html_node(block)
+
 
 if __name__ == "__main__":
     unittest.main()

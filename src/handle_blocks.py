@@ -2,6 +2,7 @@ import re
 
 from htmlnode import (
     LeafNode,
+    ParentNode,
 )
 
 block_type_paragraph = "paragraph"
@@ -79,3 +80,7 @@ def block_to_block_type(markdown):
 
 def block_quote_to_html_node(block):
     return LeafNode("blockquote", "\n".join(map(lambda l: l.lstrip(">"), block.split("\n"))))
+
+def block_ulist_to_html_node(block):
+    children = list(map(lambda l: LeafNode("li", l.lstrip("*- ")), block.split("\n")))
+    return ParentNode("ul", children)
