@@ -1,39 +1,22 @@
-from textnode import TextNode
-from textnode import (extract_markdown_images,
-                      extract_markdown_links,
-)
+import os, shutil
 
-
-
+def copy_recursive(src, dst):
+    if not os.path.exists(dst):
+        os.mkdir(dst)
+        print(f"made dir {dst}")
+    src_paths = list(map(lambda f: os.path.join(src, f), os.listdir(src)))
+    for p in src_paths:
+        if os.path.isdir(p):
+            dst_path = os.path.join(dst, os.path.split(p)[1])
+            #os.mkdir(dst_path)
+            copy_recursive(p, dst_path)
+        else:
+            shutil.copy(p, dst)
+            print(f"copied {p} -> {dst}")
 
 
 def main():
-    textnode = TextNode("bla bla", "italic", "https://www.example.com")
-
-    print(textnode)
-    t = "This is text with a **bolded** **word**"
-    tt = t.split("**")
-    print(tt)
-    print("**" in t)
-    print(len(tt))
-
-    text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)"
-    print(extract_markdown_images(text))
-
-    text = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)"
-    print(extract_markdown_links(text))
-    # [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
-
-
-"""  props = {"href": "https://www.google.com", "target": "_blank"}
-    htmlnode = HTMLNode("p", "text in paragraph", None, props)
-
-    print(htmlnode)
-
-    print(text_node_to_html_node(textnode)) """
-
+    copy_recursive("static", "public")
     
-
-
-
+    
 main()
