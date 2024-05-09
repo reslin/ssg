@@ -3,7 +3,7 @@ import os
 from handle_blocks import markdown_to_html_node
 
 def extract_title(markdown):
-    blocks = markdown.split("\n\n", 1)
+    blocks = markdown.split("\n", 1)
     if not blocks[0].startswith("# "):
         raise Exception("Missing h1-level header")
     return blocks[0].lstrip("# ")
@@ -20,7 +20,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown)
 
     new_content = template.replace("{{ Title }}", title)
-    new_content = template.replace("{{ Content }}", content)
+    new_content = new_content.replace("{{ Content }}", content)
 
     if not os.path.exists(dest_path):
         os.mkdir(dest_path)
