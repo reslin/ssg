@@ -1,5 +1,7 @@
 import re
 
+from handle_markdown import text_to_textnodes
+from textnode import text_node_to_html_node
 from htmlnode import (
     LeafNode,
     ParentNode,
@@ -78,27 +80,50 @@ def block_to_block_type(markdown):
             return block_type_olist
     return block_type_paragraph
 
+def text_to_nodes(text):
+    nodes = text_to_textnodes(text)
+    children = []
+    for node in nodes:
+        html_node = text_node_to_html_node(node)
+        children.append(html_node)
+    return children
+
 def block_quote_to_html_node(block):
-    return LeafNode("blockquote", "\n".join(map(lambda l: l.lstrip(">"), block.split("\n"))))
+    nodes = text_to_nodes("\n".join(map(lambda l: l.lstrip(">"), block.split("\n"))))
+    return ParentNode("blockquote", nodes)
 
 def block_ulist_to_html_node(block):
-    children = list(map(lambda l: LeafNode("li", l.lstrip("*- ")), block.split("\n")))
-    return ParentNode("ul", children)
+    items = block.split("\n")
+    li_nodes = []
+    for item in items:
+        stext = item[2:]
+        children = text_to_nodes(stext)
+        li_nodes.append(ParentNode("li", children))
+    return ParentNode("ul", li_nodes)
 
 def block_olist_to_html_node(block):
-    children = list(map(lambda l: LeafNode("li", l.lstrip("0123456789. ")), block.split("\n")))
-    return ParentNode("ol", children)
+    items = block.split("\n")
+    li_nodes = []
+    for item in items:
+        stext = item[3:]
+        children = text_to_nodes(stext)
+        li_nodes.append(ParentNode("li", children))
+    return ParentNode("ol", li_nodes)
 
 def block_code_to_html_node(block):
-    return ParentNode("pre", [LeafNode("code", block.strip("`"))])
+    nodes = text_to_nodes(block.strip("`"))
+    code_node = ParentNode("code", nodes)
+    return ParentNode("pre", [code_node])
 
 def block_heading_to_html_node(block):
     splitters = block.split(" ", 1)
     heading_level = len(splitters[0])
-    return LeafNode(f"h{heading_level}", block.lstrip("# "))
+    nodes = text_to_nodes(block.lstrip("# "))
+    return ParentNode(f"h{heading_level}", nodes)
 
 def block_paragraph_to_html_node(block):
-    return LeafNode("p", block)
+    nodes = text_to_nodes(block)
+    return ParentNode("p", nodes)
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)

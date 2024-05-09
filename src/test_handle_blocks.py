@@ -73,13 +73,14 @@ ghi</blockquote>"""
         self.assertEqual(block_ulist_to_html_node(block).to_html(), html)
 
     def test_block_olist_to_htmlnode(self):
-        block = "1. abc\n2. def\n3. ghi"
-        html = "<ol><li>abc</li><li>def</li><li>ghi</li></ol>"
+        block = "1. abc\n2. **def**\n3. ghi"
+        html = "<ol><li>abc</li><li><b>def</b></li><li>ghi</li></ol>"
         self.assertEqual(block_olist_to_html_node(block).to_html(), html)
 
     def test_block_code_to_htmlnode(self):
         block = "```abc\ndef\nghi```"
         html = "<pre><code>abc\ndef\nghi</code></pre>"
+        #print(block_code_to_html_node(block).to_html())
         self.assertEqual(block_code_to_html_node(block).to_html(), html)
 
     def test_block_heading_to_htmlnode(self):
@@ -95,6 +96,7 @@ ghi</blockquote>"""
     def test_markdown_to_htmlnode(self):
         md = "# h1\n\nparagraph\n\n- abc\n- def"
         html = "<div><h1>h1</h1><p>paragraph</p><ul><li>abc</li><li>def</li></ul></div>"
+        #print(markdown_to_html_node(md).to_html())
         self.assertEqual(markdown_to_html_node(md).to_html(), html)
 
 
